@@ -83,38 +83,47 @@ export default new Vuex.Store({
   actions: {
 
     fetchAllDemands(context){
-      axios
-        .get('/api/demands')
-        .then(response => {
-          // console.log('aiciiii');
-          console.log(response.data);
-          context.commit('_fetchAllDemands', response.data);
-        })
-        .catch(
-          err => console.error(err)        
-        );
+      return new Promise((resolve, reject) => {
+        axios
+          .get('/api/demands')
+          .then(response => {
+            // console.log('aiciiii');
+            // console.log(response.data);
+            context.commit('_fetchAllDemands', response.data);
+            resolve(response.data);
+          })
+          .catch(
+            err => reject(err)        
+          );
+      });
     },
+
+
     registerDemand(context, newDemand){
      
       // axios.defaults.baseURL = 'http://127.0.0.1:8000';
       // axios.defaults.headers.common['X-CSRF-TOKEN'] = $('meta[name="csrf-token"]').attr('content');
 
 
-      axios
-      .post('/api/demands', newDemand)
-      .then(response => {
-        response.data.edit = false;
-        context.commit('_registerDemand', response.data);
-        // console.log(response.data);
-      })
-      .catch(
-        err => {
-          if(err.response.status == 422){
-            // console.error(err.response.data.errors);
-            context.state.errors = err.response.data.errors;   
-          } 
-        }    
-      );
+      return new Promise((resolve, reject) => {
+        axios
+        .post('/api/demands', newDemand)
+        .then(response => {
+          response.data.edit = false;
+          context.commit('_registerDemand', response.data);
+          // console.log(response.data);
+          resolve(response.data);
+        })
+        .catch(
+          err => {
+            if(err.response.status == 422){
+              // console.error(err.response.data.errors);
+              context.state.errors = err.response.data.errors; 
+              reject(err.response.data.errors);  
+            } 
+          }    
+        );
+      });
     },
 
     updateDemand(context, theDemand){
@@ -139,14 +148,17 @@ export default new Vuex.Store({
 
     deleteTheDemand(context, id){
       console.log('aici stergem');
-      axios
-        .delete(`/api/demands/${id}`)
-        .then(response => {
-          console.log(response.data);
-          console.log(response.status);
-          context.commit('_deleteTheDemand', id);
-        })
-        .catch(err => console.error(err));
+      return new Promise((resolve, reject) => {
+        axios
+          .delete(`/api/demands/${id}`)
+          .then(response => {
+            // console.log(response.data);
+            // console.log(response.status);
+            let resp = context.commit('_deleteTheDemand', id);
+            resolve(resp);
+          })
+          .catch(err => reject(err));
+      });
     },
 
     setSelectedDemand(context, id){

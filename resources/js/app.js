@@ -21,8 +21,54 @@ import Vue from 'vue'
 import App from './App.vue'
 import store from './store'
 
+import VueSweetalert2 from 'vue-sweetalert2';
+ 
+// If you don't need the styles, do not connect
+import 'sweetalert2/dist/sweetalert2.min.css';
+ 
+Vue.use(VueSweetalert2);
+
 import Vuelidate from 'vuelidate'
 Vue.use(Vuelidate)
+
+// import VeeValidate from 'vee-validate'
+// Vue.use(VeeValidate)
+
+
+import { ValidationProvider, ValidationObserver, ErrorBag } from 'vee-validate';
+
+Vue.component('ValidationProvider', ValidationProvider);
+Vue.component('ValidationObserver', ValidationObserver);
+
+Vue.component('pulse-loader', require('vue-spinner/src/PulseLoader.vue'));
+
+
+import { extend } from 'vee-validate';
+
+import { required, email, min, max } from 'vee-validate/dist/rules';
+
+// No message specified.
+extend('email', {
+  ...email,
+  message: 'Adresa e-mail nu este valida.'
+});
+
+// Override the default message.
+extend('required', {
+  ...required,
+  message: 'Campul este obligatoriu.'
+});
+
+extend('min', {
+    ...min,
+    message: 'Lungimea minima este de {length} caractere.'
+  });
+
+
+extend('max', {
+...max,
+message: 'Lungimea maxima este de {length} caractere.'
+});
 
 
 Vue.config.productionTip = false
