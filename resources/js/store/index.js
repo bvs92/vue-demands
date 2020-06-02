@@ -13,7 +13,8 @@ export default new Vuex.Store({
     selectedDemand: {},
     Demand: {},
     demands: [],
-    errors:[]
+    errors:[],
+    categories:[],
   },
 
   
@@ -24,19 +25,27 @@ export default new Vuex.Store({
       return item;
     }),
 
+    _fetchAllCategories: (state, incCategories) => {
+      state.categories = incCategories.map(item => item);
+      console.log('INC');
+      console.log(state.categories);
+      console.log(state.categories.length);
+      console.log('END');
+    },
+
     _registerDemand: (state, newDemand) => state.demands.unshift(newDemand),
     
     _setSelectedDemand: (state, id) => {
-      console.log("Inainte de cautare.");
-      console.log(state.selectedDemand);
+      // console.log("Inainte de cautare.");
+      // console.log(state.selectedDemand);
 
       state.selectedDemand = state.demands.find(elem => {
       if(elem.id == id)
           return elem;
       })
 
-      console.log("Suntem aici.");
-      console.log(state.selectedDemand);
+      // console.log("Suntem aici.");
+      // console.log(state.selectedDemand);
   },
     _changeMode: state => {
       if(state.mode == 'create')
@@ -98,6 +107,18 @@ export default new Vuex.Store({
       });
     },
 
+    fetchAllCategories(context){
+        axios
+          .get('/api/categories/all').then(response => {
+            context.commit('_fetchAllCategories', response.data);
+            
+            console.log("Fetch");
+            console.log(response.data);
+            console.log("End Fetch");
+          })
+          .catch(err => console.log(err));
+    },
+
 
     registerDemand(context, newDemand){
      
@@ -112,11 +133,12 @@ export default new Vuex.Store({
           response.data.edit = false;
           context.commit('_registerDemand', response.data);
           // console.log(response.data);
-          resolve(response.data);
+          resolve(response);
         })
         .catch(
           err => {
-            if(err.response.status == 422){
+            // console.log(err.response.status);
+            if(err.response.status == 422 || err.response.status == 500){
               // console.error(err.response.data.errors);
               context.state.errors = err.response.data.errors; 
               reject(err.response.data.errors);  
@@ -180,12 +202,38 @@ export default new Vuex.Store({
       return state.mode;
     },
 
+    // getCategoryName(state, id){
+    //   return state.categories.filter(item => {
+    //     if(item.id == id)
+    //       return item.usage_name;
+    //   });
+    // },
+
+    getCategoryName: (state) => (id) => {
+      return state.categories.find(category => {
+        if(category.id === id)
+          return category;
+        else 
+          return null;
+      });
+    },
+
     getSelectedDemand(state){
       return state.selectedDemand;
     },
     
     getAllDemands(state){
       return state.demands;
+    },
+
+    getAllCategories(state){
+      return state.categories;
+    },
+
+    getCategoriesCount(state){
+      console.log('Nnumar categorii');
+      console.log(state.categories.length);
+      return state.categories.length;
     },
 
     getDemandsCount(state){

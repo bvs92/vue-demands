@@ -37,6 +37,8 @@ export default {
 
     // Get all demands from DB
     this.$store.dispatch('fetchAllDemands');
+    this.$store.dispatch('fetchAllCategories');
+    
   }
 }
 </script>

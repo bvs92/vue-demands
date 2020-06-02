@@ -73,7 +73,7 @@
         
         <div class="col-lg-6">
           <div class="input-group mb-3">
-             <ValidationProvider rules="required" v-slot="v">
+             <ValidationProvider rules="required:min:3" v-slot="v">
             <input type="text" 
              
             class="form-control" 
@@ -84,6 +84,40 @@
             style="width:100%;display:block;">
             <span>{{ v.errors[0] }}</span>
              </ValidationProvider>
+          </div>
+        </div>
+
+        <div class="col-lg-6">
+          <div class="input-group mb-3">
+             <ValidationProvider rules="required|min:9" v-slot="v">
+            <input type="text" 
+             
+            class="form-control" 
+            name="phone"
+            placeholder="Telefon" 
+            v-model.trim="phone" 
+            :class="{ 'is-invalid': v.failed, 'is-valid': v.passed }"
+            style="width:100%;display:block;">
+            <span>{{ v.errors[0] }}</span>
+             </ValidationProvider>
+          </div>
+        </div>
+
+        <div class="col-lg-6">
+          
+          <div class="input-group mb-3">
+
+             <ValidationProvider rules="required|min_value:1|integer" v-slot="v">
+                <select class="custom-select" name="category_id" 
+                v-model.trim="category_id" v-if="getCategoriesCount > 0"  
+                :class="{ 'is-invalid': v.failed, 'is-valid': v.passed }"
+                >
+                  <option selected="selected" value="">Selecteaza o categorie</option>
+                  <option v-for="cat in getAllCategories" :value="cat.id" :key="cat.id">{{ cat.usage_name }}</option>
+                </select>
+            <span>{{ v.errors[0] }}</span>
+             </ValidationProvider>
+             <!-- <p>Categoir: {{ category_id }}</p> -->
           </div>
         </div>
 
@@ -112,8 +146,9 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex';
+import { mapActions, mapGetters } from 'vuex';
 import { v4 as uuidv4 } from 'uuid';
+// import { mapGetters } from 'vuex';
 // uuidv4(); 
 // import { required, minLength, between, email } from 'vuelidate/lib/validators'
 
@@ -128,7 +163,9 @@ export default {
       first_name: "",
       last_name: "",
       email: "",
-      city: ""
+      city: "",
+      phone: "",
+      category_id: ''
 
       // demand: {
       //   id: "",
@@ -142,16 +179,27 @@ export default {
     }
   },
 
+  computed: {
+    ...mapGetters(['getAllCategories', 'getCategoriesCount'])
+  },
+
 
 
   methods: {
+    ...mapActions(['registerDemand']),
+
+    showCount(){
+    //    console.log('aici');
+    // console.log(this.getCategoriesCount);
+    // console.log(this.getAllCategories);
+    // console.log('end aici');
+    },
 
     showAlert() {
       // Use sweetalert2
       this.$swal('Hello Vue world!!!');
     },
 
-    ...mapActions(['registerDemand']),
 
     registerNewDemand(){
 
@@ -164,14 +212,22 @@ export default {
         first_name: this.first_name,
         last_name: this.last_name,
         email: this.email,
-        city: this.city
+        city: this.city,
+        phone: this.phone,
+        category_id: this.category_id
       }
+
+      // console.log(newDemand);
 
       // Send demand to Vuex
       this.registerDemand(newDemand).then((response) => {
+        // console.log('response.status');
         this.toastr('success', 'Cerere inregistrata cu succes.')
         this.$Progress.finish();
+        this.resetFormFields();
       }).catch(err => {
+        // console.log('ERRRRR');
+        // console.log(err);
         this.$Progress.fail();
       });
 
@@ -179,7 +235,6 @@ export default {
   // this.$store.getters.getErrors.forEach(err => console.log(err));
   
 
-      this.resetFormFields();
     }, // end registerNewDemand
 
 
@@ -188,6 +243,8 @@ export default {
       this.last_name = "";
       this.email = "";
       this.city = "";
+      this.phone = "";
+      this.category = "";
 
       this.$refs.formComponent.reset();
     },
@@ -222,12 +279,10 @@ export default {
 
   },
 
-  computed: {
 
-    showNext(){
-      // returneaza adevarat daca nu exista erori si daca s-a atins vreun input
-      // return !this.$v.first_name.$error && !this.$v.last_name.$error && this.$v.first_name.$anyDirty && this.$v.last_name.$anyDirty
-    }
+
+  mounted(){
+
   }
 
 

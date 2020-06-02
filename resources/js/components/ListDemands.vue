@@ -16,7 +16,8 @@
 <script>
 import { mapGetters } from 'vuex';
 import SingleDemand from './SingleDemand';
-import ScaleLoader from 'vue-spinner/src/ScaleLoader.vue'
+import ScaleLoader from 'vue-spinner/src/ScaleLoader.vue';
+import axios from 'axios';
 
 export default {
     name: "list-demands",
@@ -52,6 +53,8 @@ export default {
         setTimeout(() => {
             this.loading = false;
         }, 1000);
+
+
     }
 }
 </script>

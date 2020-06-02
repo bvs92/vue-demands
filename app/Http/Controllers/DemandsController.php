@@ -29,7 +29,9 @@ class DemandsController extends Controller
             'first_name'    => 'required|min:3',
             'last_name'     => 'required|min:3',
             'email'         => 'required|email',
-            'city'          => 'required|min:3'
+            'city'          => 'required|min:3',
+            'phone'         => 'required|min:9',
+            'category_id'   => 'required|exists:categories,id'
         ]);
 
         $demand = Demand::create($validated);
@@ -62,7 +64,9 @@ class DemandsController extends Controller
             'first_name'    => 'required|min:3',
             'last_name'     => 'required|min:3',
             'email'         => 'required|email',
-            'city'          => 'required|min:3'
+            'city'          => 'required|min:3',
+            'phone'         => 'required|min:9',
+            'category_id'   => 'required|exists:categories,id'
         ]);
 
         $demand = Demand::findOrFail($id);

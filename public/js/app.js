@@ -1946,6 +1946,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     //   this.getAllDemands;
     // Get all demands from DB
     this.$store.dispatch('fetchAllDemands');
+    this.$store.dispatch('fetchAllCategories');
   }
 });
 
@@ -2270,8 +2271,43 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
- // uuidv4(); 
+ // import { mapGetters } from 'vuex';
+// uuidv4(); 
 // import { required, minLength, between, email } from 'vuelidate/lib/validators'
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -2284,7 +2320,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       first_name: "",
       last_name: "",
       email: "",
-      city: "" // demand: {
+      city: "",
+      phone: "",
+      category_id: '' // demand: {
       //   id: "",
       //   first_name: "",
       //   last_name: "",
@@ -2294,12 +2332,17 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
     };
   },
-  methods: _objectSpread(_objectSpread({
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])(['getAllCategories', 'getCategoriesCount'])),
+  methods: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapActions"])(['registerDemand'])), {}, {
+    showCount: function showCount() {//    console.log('aici');
+      // console.log(this.getCategoriesCount);
+      // console.log(this.getAllCategories);
+      // console.log('end aici');
+    },
     showAlert: function showAlert() {
       // Use sweetalert2
       this.$swal('Hello Vue world!!!');
-    }
-  }, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapActions"])(['registerDemand'])), {}, {
+    },
     registerNewDemand: function registerNewDemand() {
       var _this = this;
 
@@ -2311,18 +2354,24 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         first_name: this.first_name,
         last_name: this.last_name,
         email: this.email,
-        city: this.city
-      }; // Send demand to Vuex
+        city: this.city,
+        phone: this.phone,
+        category_id: this.category_id
+      }; // console.log(newDemand);
+      // Send demand to Vuex
 
       this.registerDemand(newDemand).then(function (response) {
+        // console.log('response.status');
         _this.toastr('success', 'Cerere inregistrata cu succes.');
 
         _this.$Progress.finish();
+
+        _this.resetFormFields();
       })["catch"](function (err) {
+        // console.log('ERRRRR');
+        // console.log(err);
         _this.$Progress.fail();
       }); // this.$store.getters.getErrors.forEach(err => console.log(err));
-
-      this.resetFormFields();
     },
     // end registerNewDemand
     resetFormFields: function resetFormFields() {
@@ -2330,6 +2379,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       this.last_name = "";
       this.email = "";
       this.city = "";
+      this.phone = "";
+      this.category = "";
       this.$refs.formComponent.reset();
     },
     nextStep: function nextStep() {
@@ -2357,11 +2408,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }); // this.$swal('Hello Vue world!!!');
     }
   }),
-  computed: {
-    showNext: function showNext() {// returneaza adevarat daca nu exista erori si daca s-a atins vreun input
-      // return !this.$v.first_name.$error && !this.$v.last_name.$error && this.$v.first_name.$anyDirty && this.$v.last_name.$anyDirty
-    }
-  }
+  mounted: function mounted() {}
 });
 
 /***/ }),
@@ -2378,6 +2425,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
 /* harmony import */ var _SingleDemand__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./SingleDemand */ "./resources/js/components/SingleDemand.vue");
 /* harmony import */ var vue_spinner_src_ScaleLoader_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vue-spinner/src/ScaleLoader.vue */ "./node_modules/vue-spinner/src/ScaleLoader.vue");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_3__);
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
@@ -2399,6 +2448,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+
 
 
 
@@ -2543,6 +2593,45 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "SingleDemand",
@@ -2556,10 +2645,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       last_name: "",
       email: "",
       city: "",
+      phone: "",
+      category_id: "",
       beforeEdit: {}
     };
   },
-  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])(['getMode'])),
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])(['getMode', 'getAllCategories', 'getCategoriesCount', 'getCategoryName'])),
   methods: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapActions"])(['setSelectedDemand', 'changeMode', 'deleteTheDemand', 'updateDemand'])), {}, {
     editMode: function editMode(demand) {
       // console.log(demand.id);
@@ -2568,21 +2659,31 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
       demand.edit = true;
     },
+    // getCategory(){
+    //     console.log(this.getAllCategories);
+    //     if(this.getCategoryName(this.category_id))
+    //         return this.getCategoryName(this.category_id).usage_name;
+    // },
     cancelEdit: function cancelEdit(demand) {
       this.first_name = this.beforeEdit.first_name;
       this.last_name = this.beforeEdit.last_name;
       this.email = this.beforeEdit.email;
       this.city = this.beforeEdit.city;
+      this.phone = this.beforeEdit.phone;
+      this.category_id = this.beforeEdit.category_id;
       demand.edit = false;
     },
     saveEdit: function saveEdit(demand) {
       var _this = this;
 
-      this.$Progress.start(); // console.log("Before edit: " + this.beforeEdit.first_name);
+      // console.log("Before edit: " + this.beforeEdit.first_name);
       // console.log(this.first_name);
-
       this.$refs.formComponent.validate().then(function (success) {
+        _this.$Progress.start();
+
         if (!success) {
+          _this.$Progress.fail();
+
           return;
         }
 
@@ -2591,7 +2692,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           first_name: _this.first_name,
           last_name: _this.last_name,
           email: _this.email,
-          city: _this.city
+          city: _this.city,
+          phone: _this.phone,
+          category_id: _this.category_id
         });
 
         _this.toastr('success', 'Cerre modificata cu success.');
@@ -2612,8 +2715,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     deleteItem: function deleteItem(id) {
       var _this2 = this;
 
-      this.$Progress.start();
       this.deleteTheDemand(id).then(function (response) {
+        _this2.$Progress.start();
+
         _this2.toastr('success', 'Cerere eliminata cu succes.');
 
         _this2.$Progress.finish();
@@ -2649,6 +2753,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     this.last_name = this.demand.last_name;
     this.email = this.demand.email;
     this.city = this.demand.city;
+    this.phone = this.demand.phone;
+    this.category_id = this.demand.category_id;
   }
 });
 
@@ -46212,7 +46318,7 @@ var render = function() {
                             { staticClass: "input-group mb-3" },
                             [
                               _c("ValidationProvider", {
-                                attrs: { rules: "required" },
+                                attrs: { rules: "required:min:3" },
                                 scopedSlots: _vm._u(
                                   [
                                     {
@@ -46256,6 +46362,190 @@ var render = function() {
                                               }
                                             }
                                           }),
+                                          _vm._v(" "),
+                                          _c("span", [
+                                            _vm._v(_vm._s(v.errors[0]))
+                                          ])
+                                        ]
+                                      }
+                                    }
+                                  ],
+                                  null,
+                                  true
+                                )
+                              })
+                            ],
+                            1
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "col-lg-6" }, [
+                          _c(
+                            "div",
+                            { staticClass: "input-group mb-3" },
+                            [
+                              _c("ValidationProvider", {
+                                attrs: { rules: "required|min:9" },
+                                scopedSlots: _vm._u(
+                                  [
+                                    {
+                                      key: "default",
+                                      fn: function(v) {
+                                        return [
+                                          _c("input", {
+                                            directives: [
+                                              {
+                                                name: "model",
+                                                rawName: "v-model.trim",
+                                                value: _vm.phone,
+                                                expression: "phone",
+                                                modifiers: { trim: true }
+                                              }
+                                            ],
+                                            staticClass: "form-control",
+                                            class: {
+                                              "is-invalid": v.failed,
+                                              "is-valid": v.passed
+                                            },
+                                            staticStyle: {
+                                              width: "100%",
+                                              display: "block"
+                                            },
+                                            attrs: {
+                                              type: "text",
+                                              name: "phone",
+                                              placeholder: "Telefon"
+                                            },
+                                            domProps: { value: _vm.phone },
+                                            on: {
+                                              input: function($event) {
+                                                if ($event.target.composing) {
+                                                  return
+                                                }
+                                                _vm.phone = $event.target.value.trim()
+                                              },
+                                              blur: function($event) {
+                                                return _vm.$forceUpdate()
+                                              }
+                                            }
+                                          }),
+                                          _vm._v(" "),
+                                          _c("span", [
+                                            _vm._v(_vm._s(v.errors[0]))
+                                          ])
+                                        ]
+                                      }
+                                    }
+                                  ],
+                                  null,
+                                  true
+                                )
+                              })
+                            ],
+                            1
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "col-lg-6" }, [
+                          _c(
+                            "div",
+                            { staticClass: "input-group mb-3" },
+                            [
+                              _c("ValidationProvider", {
+                                attrs: {
+                                  rules: "required|min_value:1|integer"
+                                },
+                                scopedSlots: _vm._u(
+                                  [
+                                    {
+                                      key: "default",
+                                      fn: function(v) {
+                                        return [
+                                          _vm.getCategoriesCount > 0
+                                            ? _c(
+                                                "select",
+                                                {
+                                                  directives: [
+                                                    {
+                                                      name: "model",
+                                                      rawName: "v-model.trim",
+                                                      value: _vm.category_id,
+                                                      expression: "category_id",
+                                                      modifiers: { trim: true }
+                                                    }
+                                                  ],
+                                                  staticClass: "custom-select",
+                                                  class: {
+                                                    "is-invalid": v.failed,
+                                                    "is-valid": v.passed
+                                                  },
+                                                  attrs: {
+                                                    name: "category_id"
+                                                  },
+                                                  on: {
+                                                    change: function($event) {
+                                                      var $$selectedVal = Array.prototype.filter
+                                                        .call(
+                                                          $event.target.options,
+                                                          function(o) {
+                                                            return o.selected
+                                                          }
+                                                        )
+                                                        .map(function(o) {
+                                                          var val =
+                                                            "_value" in o
+                                                              ? o._value
+                                                              : o.value
+                                                          return val
+                                                        })
+                                                      _vm.category_id = $event
+                                                        .target.multiple
+                                                        ? $$selectedVal
+                                                        : $$selectedVal[0]
+                                                    }
+                                                  }
+                                                },
+                                                [
+                                                  _c(
+                                                    "option",
+                                                    {
+                                                      attrs: {
+                                                        selected: "selected",
+                                                        value: ""
+                                                      }
+                                                    },
+                                                    [
+                                                      _vm._v(
+                                                        "Selecteaza o categorie"
+                                                      )
+                                                    ]
+                                                  ),
+                                                  _vm._v(" "),
+                                                  _vm._l(
+                                                    _vm.getAllCategories,
+                                                    function(cat) {
+                                                      return _c(
+                                                        "option",
+                                                        {
+                                                          key: cat.id,
+                                                          domProps: {
+                                                            value: cat.id
+                                                          }
+                                                        },
+                                                        [
+                                                          _vm._v(
+                                                            _vm._s(
+                                                              cat.usage_name
+                                                            )
+                                                          )
+                                                        ]
+                                                      )
+                                                    }
+                                                  )
+                                                ],
+                                                2
+                                              )
+                                            : _vm._e(),
                                           _vm._v(" "),
                                           _c("span", [
                                             _vm._v(_vm._s(v.errors[0]))
@@ -46718,6 +47008,200 @@ var render = function() {
                         )
                       : _c("p", { staticClass: "card-text" }, [
                           _vm._v("Oras: " + _vm._s(_vm.demand.city))
+                        ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "col-lg-6" }, [
+                    _vm.demand.edit
+                      ? _c(
+                          "div",
+                          { staticClass: "input-group mb-3" },
+                          [
+                            _c("ValidationProvider", {
+                              attrs: { rules: "required|min:9" },
+                              scopedSlots: _vm._u(
+                                [
+                                  {
+                                    key: "default",
+                                    fn: function(v) {
+                                      return [
+                                        _c("input", {
+                                          directives: [
+                                            {
+                                              name: "model",
+                                              rawName: "v-model.trim",
+                                              value: _vm.phone,
+                                              expression: "phone",
+                                              modifiers: { trim: true }
+                                            }
+                                          ],
+                                          staticClass: "form-control",
+                                          class: {
+                                            "is-invalid": v.failed,
+                                            "is-valid": v.passed
+                                          },
+                                          staticStyle: {
+                                            width: "100%",
+                                            display: "block"
+                                          },
+                                          attrs: {
+                                            type: "text",
+                                            name: "phone",
+                                            placeholder: "Telefon"
+                                          },
+                                          domProps: { value: _vm.phone },
+                                          on: {
+                                            input: function($event) {
+                                              if ($event.target.composing) {
+                                                return
+                                              }
+                                              _vm.phone = $event.target.value.trim()
+                                            },
+                                            blur: function($event) {
+                                              return _vm.$forceUpdate()
+                                            }
+                                          }
+                                        }),
+                                        _vm._v(" "),
+                                        _c("span", [
+                                          _vm._v(_vm._s(v.errors[0]))
+                                        ])
+                                      ]
+                                    }
+                                  }
+                                ],
+                                null,
+                                false,
+                                2302236405
+                              )
+                            })
+                          ],
+                          1
+                        )
+                      : _c("p", { staticClass: "card-text" }, [
+                          _vm._v("Telefon: " + _vm._s(_vm.demand.phone))
+                        ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "col-lg-6" }, [
+                    _vm.demand.edit
+                      ? _c(
+                          "div",
+                          { staticClass: "input-group mb-3" },
+                          [
+                            _c("ValidationProvider", {
+                              attrs: { rules: "required|min_value:1|integer" },
+                              scopedSlots: _vm._u(
+                                [
+                                  {
+                                    key: "default",
+                                    fn: function(v) {
+                                      return [
+                                        _vm.getCategoriesCount > 0
+                                          ? _c(
+                                              "select",
+                                              {
+                                                directives: [
+                                                  {
+                                                    name: "model",
+                                                    rawName: "v-model.trim",
+                                                    value: _vm.category_id,
+                                                    expression: "category_id",
+                                                    modifiers: { trim: true }
+                                                  }
+                                                ],
+                                                staticClass: "custom-select",
+                                                class: {
+                                                  "is-invalid": v.failed,
+                                                  "is-valid": v.passed
+                                                },
+                                                attrs: { name: "category_id" },
+                                                on: {
+                                                  change: function($event) {
+                                                    var $$selectedVal = Array.prototype.filter
+                                                      .call(
+                                                        $event.target.options,
+                                                        function(o) {
+                                                          return o.selected
+                                                        }
+                                                      )
+                                                      .map(function(o) {
+                                                        var val =
+                                                          "_value" in o
+                                                            ? o._value
+                                                            : o.value
+                                                        return val
+                                                      })
+                                                    _vm.category_id = $event
+                                                      .target.multiple
+                                                      ? $$selectedVal
+                                                      : $$selectedVal[0]
+                                                  }
+                                                }
+                                              },
+                                              [
+                                                _c(
+                                                  "option",
+                                                  { attrs: { value: "" } },
+                                                  [
+                                                    _vm._v(
+                                                      "Selecteaza o categorie"
+                                                    )
+                                                  ]
+                                                ),
+                                                _vm._v(" "),
+                                                _vm._l(
+                                                  _vm.getAllCategories,
+                                                  function(cat) {
+                                                    return _c(
+                                                      "option",
+                                                      {
+                                                        key: cat.id,
+                                                        domProps: {
+                                                          selected:
+                                                            cat.id ==
+                                                            _vm.category_id,
+                                                          value: cat.id
+                                                        }
+                                                      },
+                                                      [
+                                                        _vm._v(
+                                                          _vm._s(cat.usage_name)
+                                                        )
+                                                      ]
+                                                    )
+                                                  }
+                                                )
+                                              ],
+                                              2
+                                            )
+                                          : _vm._e(),
+                                        _vm._v(" "),
+                                        _c("span", [
+                                          _vm._v(_vm._s(v.errors[0]))
+                                        ])
+                                      ]
+                                    }
+                                  }
+                                ],
+                                null,
+                                false,
+                                3577108060
+                              )
+                            })
+                          ],
+                          1
+                        )
+                      : _c("p", { staticClass: "card-text" }, [
+                          _vm._v(
+                            "Categorie: " +
+                              _vm._s(
+                                _vm.getCategoryName(this.category_id)
+                                  ? _vm.getCategoryName(this.category_id)
+                                      .usage_name
+                                  : "Nedefinit"
+                              )
+                          )
                         ])
                   ])
                 ]),
@@ -61526,6 +62010,12 @@ Object(vee_validate__WEBPACK_IMPORTED_MODULE_6__["extend"])('min', _objectSpread
 Object(vee_validate__WEBPACK_IMPORTED_MODULE_6__["extend"])('max', _objectSpread(_objectSpread({}, vee_validate_dist_rules__WEBPACK_IMPORTED_MODULE_7__["max"]), {}, {
   message: 'Lungimea maxima este de {length} caractere.'
 }));
+Object(vee_validate__WEBPACK_IMPORTED_MODULE_6__["extend"])('min_value', _objectSpread(_objectSpread({}, vee_validate_dist_rules__WEBPACK_IMPORTED_MODULE_7__["min_value"]), {}, {
+  message: 'Invalid.'
+}));
+Object(vee_validate__WEBPACK_IMPORTED_MODULE_6__["extend"])('integer', _objectSpread(_objectSpread({}, vee_validate_dist_rules__WEBPACK_IMPORTED_MODULE_7__["integer"]), {}, {
+  message: 'Valoare invalida.'
+}));
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.config.productionTip = false; // const app = new Vue({
 //     el: '#app',
 // });
@@ -61920,7 +62410,8 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
     selectedDemand: {},
     Demand: {},
     demands: [],
-    errors: []
+    errors: [],
+    categories: []
   },
   mutations: {
     _fetchAllDemands: function _fetchAllDemands(state, incDemands) {
@@ -61929,17 +62420,25 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
         return item;
       });
     },
+    _fetchAllCategories: function _fetchAllCategories(state, incCategories) {
+      state.categories = incCategories.map(function (item) {
+        return item;
+      });
+      console.log('INC');
+      console.log(state.categories);
+      console.log(state.categories.length);
+      console.log('END');
+    },
     _registerDemand: function _registerDemand(state, newDemand) {
       return state.demands.unshift(newDemand);
     },
     _setSelectedDemand: function _setSelectedDemand(state, id) {
-      console.log("Inainte de cautare.");
-      console.log(state.selectedDemand);
+      // console.log("Inainte de cautare.");
+      // console.log(state.selectedDemand);
       state.selectedDemand = state.demands.find(function (elem) {
         if (elem.id == id) return elem;
-      });
-      console.log("Suntem aici.");
-      console.log(state.selectedDemand);
+      }); // console.log("Suntem aici.");
+      // console.log(state.selectedDemand);
     },
     _changeMode: function _changeMode(state) {
       if (state.mode == 'create') state.mode = 'edit';else state.mode = 'create';
@@ -61985,6 +62484,16 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
         });
       });
     },
+    fetchAllCategories: function fetchAllCategories(context) {
+      axios__WEBPACK_IMPORTED_MODULE_2___default.a.get('/api/categories/all').then(function (response) {
+        context.commit('_fetchAllCategories', response.data);
+        console.log("Fetch");
+        console.log(response.data);
+        console.log("End Fetch");
+      })["catch"](function (err) {
+        return console.log(err);
+      });
+    },
     registerDemand: function registerDemand(context, newDemand) {
       // axios.defaults.baseURL = 'http://127.0.0.1:8000';
       // axios.defaults.headers.common['X-CSRF-TOKEN'] = $('meta[name="csrf-token"]').attr('content');
@@ -61993,9 +62502,10 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
           response.data.edit = false;
           context.commit('_registerDemand', response.data); // console.log(response.data);
 
-          resolve(response.data);
+          resolve(response);
         })["catch"](function (err) {
-          if (err.response.status == 422) {
+          // console.log(err.response.status);
+          if (err.response.status == 422 || err.response.status == 500) {
             // console.error(err.response.data.errors);
             context.state.errors = err.response.data.errors;
             reject(err.response.data.errors);
@@ -62044,11 +62554,32 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
     getMode: function getMode(state) {
       return state.mode;
     },
+    // getCategoryName(state, id){
+    //   return state.categories.filter(item => {
+    //     if(item.id == id)
+    //       return item.usage_name;
+    //   });
+    // },
+    getCategoryName: function getCategoryName(state) {
+      return function (id) {
+        return state.categories.find(function (category) {
+          if (category.id === id) return category;else return null;
+        });
+      };
+    },
     getSelectedDemand: function getSelectedDemand(state) {
       return state.selectedDemand;
     },
     getAllDemands: function getAllDemands(state) {
       return state.demands;
+    },
+    getAllCategories: function getAllCategories(state) {
+      return state.categories;
+    },
+    getCategoriesCount: function getCategoriesCount(state) {
+      console.log('Nnumar categorii');
+      console.log(state.categories.length);
+      return state.categories.length;
     },
     getDemandsCount: function getDemandsCount(state) {
       return state.demands.length;

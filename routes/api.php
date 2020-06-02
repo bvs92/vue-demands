@@ -23,3 +23,6 @@ Route::get('demands', 'DemandsController@index');
 Route::post('demands', 'DemandsController@store');
 Route::put('demands/{id}', 'DemandsController@update');
 Route::delete('demands/{id}', 'DemandsController@destroy');
+
+
+Route::get('categories/all', 'CategoryController@getCategories');

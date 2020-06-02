@@ -80,6 +80,45 @@
                         </div>
                         <p v-else class="card-text">Oras: {{ demand.city }}</p>
                         </div>
+
+                        <div class="col-lg-6">
+                            <div class="input-group mb-3" v-if="demand.edit">
+                                <ValidationProvider rules="required|min:9" v-slot="v">
+                                <input type="text" 
+                                
+                                class="form-control" 
+                                name="phone"
+                                placeholder="Telefon" 
+                                v-model.trim="phone" 
+                                :class="{ 'is-invalid': v.failed, 'is-valid': v.passed }"
+                                style="width:100%;display:block;">
+                                <span>{{ v.errors[0] }}</span>
+                                </ValidationProvider>
+                            </div>
+
+                            <p v-else class="card-text">Telefon: {{ demand.phone }}</p>
+                        </div>
+
+                        <div class="col-lg-6">
+                            
+                        <div class="input-group mb-3" v-if="demand.edit">
+
+                                <ValidationProvider rules="required|min_value:1|integer" v-slot="v">
+                                    <select class="custom-select" name="category_id" 
+                                    v-model.trim="category_id" v-if="getCategoriesCount > 0"  
+                                    :class="{ 'is-invalid': v.failed, 'is-valid': v.passed }"
+                                    >
+                                    <option value="">Selecteaza o categorie</option>
+                                    <option v-for="cat in getAllCategories" :selected="cat.id == category_id" :value="cat.id" :key="cat.id">{{ cat.usage_name }}</option>
+                                    </select>
+                                <span>{{ v.errors[0] }}</span>
+                                </ValidationProvider>
+                            </div>
+
+                            <p v-else class="card-text">Categorie: {{ getCategoryName(this.category_id) ? getCategoryName(this.category_id).usage_name : 'Nedefinit' }}</p>
+                        </div>
+
+
                 </div><!-- end row -->
 
                 <button v-if="demand.edit" class="btn btn-success" type="submit">Salveaza modificarile</button>
@@ -107,6 +146,8 @@ import { mapActions, mapGetters } from 'vuex'
                 last_name: "",
                 email: "",
                 city: "",
+                phone: "",
+                category_id: "",
 
                 beforeEdit: {}
             }
@@ -114,7 +155,7 @@ import { mapActions, mapGetters } from 'vuex'
 
 
         computed: {
-            ...mapGetters(['getMode'])
+            ...mapGetters(['getMode','getAllCategories', 'getCategoriesCount', 'getCategoryName'])
         },
 
         methods: {
@@ -128,22 +169,32 @@ import { mapActions, mapGetters } from 'vuex'
                 demand.edit = true;
             },
 
+            // getCategory(){
+            //     console.log(this.getAllCategories);
+            //     if(this.getCategoryName(this.category_id))
+            //         return this.getCategoryName(this.category_id).usage_name;
+            // },
+
             cancelEdit(demand){
                 this.first_name = this.beforeEdit.first_name;
                 this.last_name = this.beforeEdit.last_name;
                 this.email = this.beforeEdit.email;
                 this.city = this.beforeEdit.city;
+                this.phone = this.beforeEdit.phone;
+                this.category_id = this.beforeEdit.category_id;
 
                 demand.edit = false;
             },
 
             saveEdit(demand){
-                this.$Progress.start();
                 // console.log("Before edit: " + this.beforeEdit.first_name);
                 // console.log(this.first_name);
 
                 this.$refs.formComponent.validate().then(success => {
+                    this.$Progress.start();
+
                     if(!success){
+                        this.$Progress.fail();
                         return;
                     }
 
@@ -153,7 +204,9 @@ import { mapActions, mapGetters } from 'vuex'
                         first_name: this.first_name,
                         last_name: this.last_name,
                         email: this.email,
-                        city: this.city
+                        city: this.city,
+                        phone: this.phone,
+                        category_id: this.category_id
                     });
                     this.toastr('success', 'Cerre modificata cu success.');
                     this.$Progress.finish();
@@ -177,8 +230,8 @@ import { mapActions, mapGetters } from 'vuex'
             },
 
             deleteItem(id){
-                this.$Progress.start();
                 this.deleteTheDemand(id).then((response) => {
+                    this.$Progress.start();
                     this.toastr('success', 'Cerere eliminata cu succes.');
                     this.$Progress.finish();
                 }).catch(err => this.$Progress.fail());
@@ -214,6 +267,8 @@ import { mapActions, mapGetters } from 'vuex'
             this.last_name = this.demand.last_name;
             this.email = this.demand.email;
             this.city = this.demand.city;
+            this.phone = this.demand.phone;
+            this.category_id = this.demand.category_id;
         }
     }
 </script>

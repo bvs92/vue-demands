@@ -53,7 +53,7 @@ Vue.component('pulse-loader', require('vue-spinner/src/PulseLoader.vue'));
 
 import { extend } from 'vee-validate';
 
-import { required, email, min, max } from 'vee-validate/dist/rules';
+import { required, email, min, max, min_value, integer } from 'vee-validate/dist/rules';
 
 // No message specified.
 extend('email', {
@@ -77,6 +77,16 @@ extend('max', {
 ...max,
 message: 'Lungimea maxima este de {length} caractere.'
 });
+
+extend('min_value', {
+    ...min_value,
+    message: 'Invalid.'
+  });
+
+  extend('integer', {
+    ...integer,
+    message: 'Valoare invalida.'
+  });
 
 
 Vue.config.productionTip = false

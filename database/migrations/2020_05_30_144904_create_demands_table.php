@@ -15,11 +15,18 @@ class CreateDemandsTable extends Migration
     {
         Schema::create('demands', function (Blueprint $table) {
             $table->id();
+            $table->unsignedInteger('category_id');
             $table->string('first_name');
             $table->string('last_name');
             $table->string('email');
             $table->string('city');
+            $table->string('phone');
             $table->timestamps();
+
+        });
+        
+        Schema::table('demands', function(Blueprint $table){
+            // $table->foreign('category_id')->references('id')->on('categories');
         });
     }
 
