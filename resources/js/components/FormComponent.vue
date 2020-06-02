@@ -155,6 +155,8 @@ export default {
 
     registerNewDemand(){
 
+      this.$Progress.start();
+
       // this.$v.$touch()
       // Define new demand with inputs from form
       let newDemand = {
@@ -168,6 +170,9 @@ export default {
       // Send demand to Vuex
       this.registerDemand(newDemand).then((response) => {
         this.toastr('success', 'Cerere inregistrata cu succes.')
+        this.$Progress.finish();
+      }).catch(err => {
+        this.$Progress.fail();
       });
 
 

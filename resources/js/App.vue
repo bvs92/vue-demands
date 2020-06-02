@@ -1,5 +1,6 @@
 <template>
   <div id="app" class="container-sm">
+    <vue-progress-bar></vue-progress-bar>
     <form-component v-if="getMode == 'create'"></form-component>
     <edit-demnad v-else></edit-demnad>
     <list-demands></list-demands>

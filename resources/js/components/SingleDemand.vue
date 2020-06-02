@@ -138,8 +138,9 @@ import { mapActions, mapGetters } from 'vuex'
             },
 
             saveEdit(demand){
-                console.log("Before edit: " + this.beforeEdit.first_name);
-                console.log(this.first_name);
+                this.$Progress.start();
+                // console.log("Before edit: " + this.beforeEdit.first_name);
+                // console.log(this.first_name);
 
                 this.$refs.formComponent.validate().then(success => {
                     if(!success){
@@ -155,6 +156,7 @@ import { mapActions, mapGetters } from 'vuex'
                         city: this.city
                     });
                     this.toastr('success', 'Cerre modificata cu success.');
+                    this.$Progress.finish();
 
                     // Wait until the models are updated in the UI
                     this.$nextTick(() => {
@@ -175,9 +177,11 @@ import { mapActions, mapGetters } from 'vuex'
             },
 
             deleteItem(id){
+                this.$Progress.start();
                 this.deleteTheDemand(id).then((response) => {
                     this.toastr('success', 'Cerere eliminata cu succes.');
-                });
+                    this.$Progress.finish();
+                }).catch(err => this.$Progress.fail());
             },
 
             toastr(theType = 'success', msg){

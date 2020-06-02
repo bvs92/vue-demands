@@ -1926,6 +1926,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
 
 
 
@@ -2302,8 +2303,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     registerNewDemand: function registerNewDemand() {
       var _this = this;
 
-      // this.$v.$touch()
+      this.$Progress.start(); // this.$v.$touch()
       // Define new demand with inputs from form
+
       var newDemand = {
         // id: uuidv4(),
         first_name: this.first_name,
@@ -2314,6 +2316,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
       this.registerDemand(newDemand).then(function (response) {
         _this.toastr('success', 'Cerere inregistrata cu succes.');
+
+        _this.$Progress.finish();
+      })["catch"](function (err) {
+        _this.$Progress.fail();
       }); // this.$store.getters.getErrors.forEach(err => console.log(err));
 
       this.resetFormFields();
@@ -2572,8 +2578,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     saveEdit: function saveEdit(demand) {
       var _this = this;
 
-      console.log("Before edit: " + this.beforeEdit.first_name);
-      console.log(this.first_name);
+      this.$Progress.start(); // console.log("Before edit: " + this.beforeEdit.first_name);
+      // console.log(this.first_name);
+
       this.$refs.formComponent.validate().then(function (success) {
         if (!success) {
           return;
@@ -2587,7 +2594,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           city: _this.city
         });
 
-        _this.toastr('success', 'Cerre modificata cu success.'); // Wait until the models are updated in the UI
+        _this.toastr('success', 'Cerre modificata cu success.');
+
+        _this.$Progress.finish(); // Wait until the models are updated in the UI
 
 
         _this.$nextTick(function () {
@@ -2603,8 +2612,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     deleteItem: function deleteItem(id) {
       var _this2 = this;
 
+      this.$Progress.start();
       this.deleteTheDemand(id).then(function (response) {
         _this2.toastr('success', 'Cerere eliminata cu succes.');
+
+        _this2.$Progress.finish();
+      })["catch"](function (err) {
+        return _this2.$Progress.fail();
       });
     },
     toastr: function toastr() {
@@ -45483,6 +45497,8 @@ var render = function() {
     "div",
     { staticClass: "container-sm", attrs: { id: "app" } },
     [
+      _c("vue-progress-bar"),
+      _vm._v(" "),
       _vm.getMode == "create" ? _c("form-component") : _c("edit-demnad"),
       _vm._v(" "),
       _c("list-demands")
@@ -46855,6 +46871,18 @@ function normalizeComponent (
     options: options
   }
 }
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-progressbar/dist/vue-progressbar.js":
+/*!**************************************************************!*\
+  !*** ./node_modules/vue-progressbar/dist/vue-progressbar.js ***!
+  \**************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+!function(t,o){ true?module.exports=o():undefined}(this,function(){"use strict";!function(){if("undefined"!=typeof document){var t=document.head||document.getElementsByTagName("head")[0],o=document.createElement("style"),i=" .__cov-progress { opacity: 1; z-index: 999999; } ";o.type="text/css",o.styleSheet?o.styleSheet.cssText=i:o.appendChild(document.createTextNode(i)),t.appendChild(o)}}();var t="undefined"!=typeof window,r={render:function(){var t=this,o=t.$createElement;return(t._self._c||o)("div",{staticClass:"__cov-progress",style:t.style})},staticRenderFns:[],name:"VueProgress",serverCacheKey:function(){return"Progress"},computed:{style:function(){var t=this.progress,o=t.options,i=!!o.show,e=o.location,s={"background-color":o.canSuccess?o.color:o.failedColor,opacity:o.show?1:0,position:o.position};return"top"===e||"bottom"===e?("top"===e?s.top="0px":s.bottom="0px",o.inverse?s.right="0px":s.left="0px",s.width=t.percent+"%",s.height=o.thickness,s.transition=(i?"width "+o.transition.speed+", ":"")+"opacity "+o.transition.opacity):"left"!==e&&"right"!==e||("left"===e?s.left="0px":s.right="0px",o.inverse?s.top="0px":s.bottom="0px",s.height=t.percent+"%",s.width=o.thickness,s.transition=(i?"height "+o.transition.speed+", ":"")+"opacity "+o.transition.opacity),s},progress:function(){return t?window.VueProgressBarEventBus.RADON_LOADING_BAR:{percent:0,options:{canSuccess:!0,show:!1,color:"rgb(19, 91, 55)",failedColor:"red",thickness:"2px",transition:{speed:"0.2s",opacity:"0.6s",termination:300},location:"top",autoRevert:!0,inverse:!1}}}}};return{install:function(o){var t=1<arguments.length&&void 0!==arguments[1]?arguments[1]:{},i=(o.version.split(".")[0],"undefined"!=typeof window),e={$vm:null,state:{tFailColor:"",tColor:"",timer:null,cut:0},init:function(t){this.$vm=t},start:function(t){var o=this;this.$vm&&(t||(t=3e3),this.$vm.RADON_LOADING_BAR.percent=0,this.$vm.RADON_LOADING_BAR.options.show=!0,this.$vm.RADON_LOADING_BAR.options.canSuccess=!0,this.state.cut=1e4/Math.floor(t),clearInterval(this.state.timer),this.state.timer=setInterval(function(){o.increase(o.state.cut*Math.random()),95<o.$vm.RADON_LOADING_BAR.percent&&o.$vm.RADON_LOADING_BAR.options.autoFinish&&o.finish()},100))},set:function(t){this.$vm.RADON_LOADING_BAR.options.show=!0,this.$vm.RADON_LOADING_BAR.options.canSuccess=!0,this.$vm.RADON_LOADING_BAR.percent=Math.floor(t)},get:function(){return Math.floor(this.$vm.RADON_LOADING_BAR.percent)},increase:function(t){this.$vm.RADON_LOADING_BAR.percent=Math.min(99,this.$vm.RADON_LOADING_BAR.percent+Math.floor(t))},decrease:function(t){this.$vm.RADON_LOADING_BAR.percent=this.$vm.RADON_LOADING_BAR.percent-Math.floor(t)},hide:function(){var t=this;clearInterval(this.state.timer),this.state.timer=null,setTimeout(function(){t.$vm.RADON_LOADING_BAR.options.show=!1,o.nextTick(function(){setTimeout(function(){t.$vm.RADON_LOADING_BAR.percent=0},100),t.$vm.RADON_LOADING_BAR.options.autoRevert&&setTimeout(function(){t.revert()},300)})},this.$vm.RADON_LOADING_BAR.options.transition.termination)},pause:function(){clearInterval(this.state.timer)},finish:function(){this.$vm&&(this.$vm.RADON_LOADING_BAR.percent=100,this.hide())},fail:function(){this.$vm.RADON_LOADING_BAR.options.canSuccess=!1,this.$vm.RADON_LOADING_BAR.percent=100,this.hide()},setFailColor:function(t){this.$vm.RADON_LOADING_BAR.options.failedColor=t},setColor:function(t){this.$vm.RADON_LOADING_BAR.options.color=t},setLocation:function(t){this.$vm.RADON_LOADING_BAR.options.location=t},setTransition:function(t){this.$vm.RADON_LOADING_BAR.options.transition=t},tempFailColor:function(t){this.state.tFailColor=this.$vm.RADON_LOADING_BAR.options.failedColor,this.$vm.RADON_LOADING_BAR.options.failedColor=t},tempColor:function(t){this.state.tColor=this.$vm.RADON_LOADING_BAR.options.color,this.$vm.RADON_LOADING_BAR.options.color=t},tempLocation:function(t){this.state.tLocation=this.$vm.RADON_LOADING_BAR.options.location,this.$vm.RADON_LOADING_BAR.options.location=t},tempTransition:function(t){this.state.tTransition=this.$vm.RADON_LOADING_BAR.options.transition,this.$vm.RADON_LOADING_BAR.options.transition=t},revertColor:function(){this.$vm.RADON_LOADING_BAR.options.color=this.state.tColor,this.state.tColor=""},revertFailColor:function(){this.$vm.RADON_LOADING_BAR.options.failedColor=this.state.tFailColor,this.state.tFailColor=""},revertLocation:function(){this.$vm.RADON_LOADING_BAR.options.location=this.state.tLocation,this.state.tLocation=""},revertTransition:function(){this.$vm.RADON_LOADING_BAR.options.transition=this.state.tTransition,this.state.tTransition={}},revert:function(){this.$vm.RADON_LOADING_BAR.options.autoRevert&&(this.state.tColor&&this.revertColor(),this.state.tFailColor&&this.revertFailColor(),this.state.tLocation&&this.revertLocation(),!this.state.tTransition||void 0===this.state.tTransition.speed&&void 0===this.state.tTransition.opacity||this.revertTransition())},parseMeta:function(t){for(var o in t.func){var i=t.func[o];switch(i.call){case"color":switch(i.modifier){case"set":this.setColor(i.argument);break;case"temp":this.tempColor(i.argument)}break;case"fail":switch(i.modifier){case"set":this.setFailColor(i.argument);break;case"temp":this.tempFailColor(i.argument)}break;case"location":switch(i.modifier){case"set":this.setLocation(i.argument);break;case"temp":this.tempLocation(i.argument)}break;case"transition":switch(i.modifier){case"set":this.setTransition(i.argument);break;case"temp":this.tempTransition(i.argument)}}}}},s=function(t,o){for(var i,e,s=1;s<arguments.length;++s)for(i in e=arguments[s])Object.prototype.hasOwnProperty.call(e,i)&&(t[i]=e[i]);return t}({canSuccess:!0,show:!1,color:"#73ccec",position:"fixed",failedColor:"red",thickness:"2px",transition:{speed:"0.2s",opacity:"0.6s",termination:300},autoRevert:!0,location:"top",inverse:!1,autoFinish:!0},t),n=new o({data:{RADON_LOADING_BAR:{percent:0,options:s}}});i&&(window.VueProgressBarEventBus=n,e.init(n)),o.component("vue-progress-bar",r),o.prototype.$Progress=e}}});
 
 
 /***/ }),
@@ -59070,699 +59098,6 @@ if (false) {} else {
 
 /***/ }),
 
-/***/ "./node_modules/vuelidate/lib/index.js":
-/*!*********************************************!*\
-  !*** ./node_modules/vuelidate/lib/index.js ***!
-  \*********************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.Vuelidate = Vuelidate;
-Object.defineProperty(exports, "withParams", {
-  enumerable: true,
-  get: function get() {
-    return _params.withParams;
-  }
-});
-exports.default = exports.validationMixin = void 0;
-
-var _vval = __webpack_require__(/*! ./vval */ "./node_modules/vuelidate/lib/vval.js");
-
-var _params = __webpack_require__(/*! ./params */ "./node_modules/vuelidate/lib/params.js");
-
-function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
-
-function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance"); }
-
-function _iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter); }
-
-function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } }
-
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
-
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
-var NIL = function NIL() {
-  return null;
-};
-
-var buildFromKeys = function buildFromKeys(keys, fn, keyFn) {
-  return keys.reduce(function (build, key) {
-    build[keyFn ? keyFn(key) : key] = fn(key);
-    return build;
-  }, {});
-};
-
-function isFunction(val) {
-  return typeof val === 'function';
-}
-
-function isObject(val) {
-  return val !== null && (_typeof(val) === 'object' || isFunction(val));
-}
-
-function isPromise(object) {
-  return isObject(object) && isFunction(object.then);
-}
-
-var getPath = function getPath(ctx, obj, path, fallback) {
-  if (typeof path === 'function') {
-    return path.call(ctx, obj, fallback);
-  }
-
-  path = Array.isArray(path) ? path : path.split('.');
-
-  for (var i = 0; i < path.length; i++) {
-    if (obj && _typeof(obj) === 'object') {
-      obj = obj[path[i]];
-    } else {
-      return fallback;
-    }
-  }
-
-  return typeof obj === 'undefined' ? fallback : obj;
-};
-
-var __isVuelidateAsyncVm = '__isVuelidateAsyncVm';
-
-function makePendingAsyncVm(Vue, promise) {
-  var asyncVm = new Vue({
-    data: {
-      p: true,
-      v: false
-    }
-  });
-  promise.then(function (value) {
-    asyncVm.p = false;
-    asyncVm.v = value;
-  }, function (error) {
-    asyncVm.p = false;
-    asyncVm.v = false;
-    throw error;
-  });
-  asyncVm[__isVuelidateAsyncVm] = true;
-  return asyncVm;
-}
-
-var validationGetters = {
-  $invalid: function $invalid() {
-    var _this = this;
-
-    var proxy = this.proxy;
-    return this.nestedKeys.some(function (nested) {
-      return _this.refProxy(nested).$invalid;
-    }) || this.ruleKeys.some(function (rule) {
-      return !proxy[rule];
-    });
-  },
-  $dirty: function $dirty() {
-    var _this2 = this;
-
-    if (this.dirty) {
-      return true;
-    }
-
-    if (this.nestedKeys.length === 0) {
-      return false;
-    }
-
-    return this.nestedKeys.every(function (key) {
-      return _this2.refProxy(key).$dirty;
-    });
-  },
-  $anyDirty: function $anyDirty() {
-    var _this3 = this;
-
-    if (this.dirty) {
-      return true;
-    }
-
-    if (this.nestedKeys.length === 0) {
-      return false;
-    }
-
-    return this.nestedKeys.some(function (key) {
-      return _this3.refProxy(key).$anyDirty;
-    });
-  },
-  $error: function $error() {
-    return this.$dirty && !this.$pending && this.$invalid;
-  },
-  $anyError: function $anyError() {
-    var _this4 = this;
-
-    if (this.$error) return true;
-    return this.nestedKeys.some(function (key) {
-      return _this4.refProxy(key).$anyError;
-    });
-  },
-  $pending: function $pending() {
-    var _this5 = this;
-
-    return this.ruleKeys.some(function (key) {
-      return _this5.getRef(key).$pending;
-    }) || this.nestedKeys.some(function (key) {
-      return _this5.refProxy(key).$pending;
-    });
-  },
-  $params: function $params() {
-    var _this6 = this;
-
-    var vals = this.validations;
-    return _objectSpread({}, buildFromKeys(this.nestedKeys, function (key) {
-      return vals[key] && vals[key].$params || null;
-    }), {}, buildFromKeys(this.ruleKeys, function (key) {
-      return _this6.getRef(key).$params;
-    }));
-  }
-};
-
-function setDirtyRecursive(newState) {
-  this.dirty = newState;
-  var proxy = this.proxy;
-  var method = newState ? '$touch' : '$reset';
-  this.nestedKeys.forEach(function (key) {
-    proxy[key][method]();
-  });
-}
-
-var validationMethods = {
-  $touch: function $touch() {
-    setDirtyRecursive.call(this, true);
-  },
-  $reset: function $reset() {
-    setDirtyRecursive.call(this, false);
-  },
-  $flattenParams: function $flattenParams() {
-    var proxy = this.proxy;
-    var params = [];
-
-    for (var key in this.$params) {
-      if (this.isNested(key)) {
-        var childParams = proxy[key].$flattenParams();
-
-        for (var j = 0; j < childParams.length; j++) {
-          childParams[j].path.unshift(key);
-        }
-
-        params = params.concat(childParams);
-      } else {
-        params.push({
-          path: [],
-          name: key,
-          params: this.$params[key]
-        });
-      }
-    }
-
-    return params;
-  }
-};
-var getterNames = Object.keys(validationGetters);
-var methodNames = Object.keys(validationMethods);
-var _cachedComponent = null;
-
-var getComponent = function getComponent(Vue) {
-  if (_cachedComponent) {
-    return _cachedComponent;
-  }
-
-  var VBase = Vue.extend({
-    computed: {
-      refs: function refs() {
-        var oldVval = this._vval;
-        this._vval = this.children;
-        (0, _vval.patchChildren)(oldVval, this._vval);
-        var refs = {};
-
-        this._vval.forEach(function (c) {
-          refs[c.key] = c.vm;
-        });
-
-        return refs;
-      }
-    },
-    beforeCreate: function beforeCreate() {
-      this._vval = null;
-    },
-    beforeDestroy: function beforeDestroy() {
-      if (this._vval) {
-        (0, _vval.patchChildren)(this._vval);
-        this._vval = null;
-      }
-    },
-    methods: {
-      getModel: function getModel() {
-        return this.lazyModel ? this.lazyModel(this.prop) : this.model;
-      },
-      getModelKey: function getModelKey(key) {
-        var model = this.getModel();
-
-        if (model) {
-          return model[key];
-        }
-      },
-      hasIter: function hasIter() {
-        return false;
-      }
-    }
-  });
-  var ValidationRule = VBase.extend({
-    data: function data() {
-      return {
-        rule: null,
-        lazyModel: null,
-        model: null,
-        lazyParentModel: null,
-        rootModel: null
-      };
-    },
-    methods: {
-      runRule: function runRule(parent) {
-        var model = this.getModel();
-        (0, _params.pushParams)();
-        var rawOutput = this.rule.call(this.rootModel, model, parent);
-        var output = isPromise(rawOutput) ? makePendingAsyncVm(Vue, rawOutput) : rawOutput;
-        var rawParams = (0, _params.popParams)();
-        var params = rawParams && rawParams.$sub ? rawParams.$sub.length > 1 ? rawParams : rawParams.$sub[0] : null;
-        return {
-          output: output,
-          params: params
-        };
-      }
-    },
-    computed: {
-      run: function run() {
-        var _this7 = this;
-
-        var parent = this.lazyParentModel();
-
-        var isArrayDependant = Array.isArray(parent) && parent.__ob__;
-
-        if (isArrayDependant) {
-          var arrayDep = parent.__ob__.dep;
-          arrayDep.depend();
-          var target = arrayDep.constructor.target;
-
-          if (!this._indirectWatcher) {
-            var Watcher = target.constructor;
-            this._indirectWatcher = new Watcher(this, function () {
-              return _this7.runRule(parent);
-            }, null, {
-              lazy: true
-            });
-          }
-
-          var model = this.getModel();
-
-          if (!this._indirectWatcher.dirty && this._lastModel === model) {
-            this._indirectWatcher.depend();
-
-            return target.value;
-          }
-
-          this._lastModel = model;
-
-          this._indirectWatcher.evaluate();
-
-          this._indirectWatcher.depend();
-        } else if (this._indirectWatcher) {
-          this._indirectWatcher.teardown();
-
-          this._indirectWatcher = null;
-        }
-
-        return this._indirectWatcher ? this._indirectWatcher.value : this.runRule(parent);
-      },
-      $params: function $params() {
-        return this.run.params;
-      },
-      proxy: function proxy() {
-        var output = this.run.output;
-
-        if (output[__isVuelidateAsyncVm]) {
-          return !!output.v;
-        }
-
-        return !!output;
-      },
-      $pending: function $pending() {
-        var output = this.run.output;
-
-        if (output[__isVuelidateAsyncVm]) {
-          return output.p;
-        }
-
-        return false;
-      }
-    },
-    destroyed: function destroyed() {
-      if (this._indirectWatcher) {
-        this._indirectWatcher.teardown();
-
-        this._indirectWatcher = null;
-      }
-    }
-  });
-  var Validation = VBase.extend({
-    data: function data() {
-      return {
-        dirty: false,
-        validations: null,
-        lazyModel: null,
-        model: null,
-        prop: null,
-        lazyParentModel: null,
-        rootModel: null
-      };
-    },
-    methods: _objectSpread({}, validationMethods, {
-      refProxy: function refProxy(key) {
-        return this.getRef(key).proxy;
-      },
-      getRef: function getRef(key) {
-        return this.refs[key];
-      },
-      isNested: function isNested(key) {
-        return typeof this.validations[key] !== 'function';
-      }
-    }),
-    computed: _objectSpread({}, validationGetters, {
-      nestedKeys: function nestedKeys() {
-        return this.keys.filter(this.isNested);
-      },
-      ruleKeys: function ruleKeys() {
-        var _this8 = this;
-
-        return this.keys.filter(function (k) {
-          return !_this8.isNested(k);
-        });
-      },
-      keys: function keys() {
-        return Object.keys(this.validations).filter(function (k) {
-          return k !== '$params';
-        });
-      },
-      proxy: function proxy() {
-        var _this9 = this;
-
-        var keyDefs = buildFromKeys(this.keys, function (key) {
-          return {
-            enumerable: true,
-            configurable: true,
-            get: function get() {
-              return _this9.refProxy(key);
-            }
-          };
-        });
-        var getterDefs = buildFromKeys(getterNames, function (key) {
-          return {
-            enumerable: true,
-            configurable: true,
-            get: function get() {
-              return _this9[key];
-            }
-          };
-        });
-        var methodDefs = buildFromKeys(methodNames, function (key) {
-          return {
-            enumerable: false,
-            configurable: true,
-            get: function get() {
-              return _this9[key];
-            }
-          };
-        });
-        var iterDefs = this.hasIter() ? {
-          $iter: {
-            enumerable: true,
-            value: Object.defineProperties({}, _objectSpread({}, keyDefs))
-          }
-        } : {};
-        return Object.defineProperties({}, _objectSpread({}, keyDefs, {}, iterDefs, {
-          $model: {
-            enumerable: true,
-            get: function get() {
-              var parent = _this9.lazyParentModel();
-
-              if (parent != null) {
-                return parent[_this9.prop];
-              } else {
-                return null;
-              }
-            },
-            set: function set(value) {
-              var parent = _this9.lazyParentModel();
-
-              if (parent != null) {
-                parent[_this9.prop] = value;
-
-                _this9.$touch();
-              }
-            }
-          }
-        }, getterDefs, {}, methodDefs));
-      },
-      children: function children() {
-        var _this10 = this;
-
-        return [].concat(_toConsumableArray(this.nestedKeys.map(function (key) {
-          return renderNested(_this10, key);
-        })), _toConsumableArray(this.ruleKeys.map(function (key) {
-          return renderRule(_this10, key);
-        }))).filter(Boolean);
-      }
-    })
-  });
-  var GroupValidation = Validation.extend({
-    methods: {
-      isNested: function isNested(key) {
-        return typeof this.validations[key]() !== 'undefined';
-      },
-      getRef: function getRef(key) {
-        var vm = this;
-        return {
-          get proxy() {
-            return vm.validations[key]() || false;
-          }
-
-        };
-      }
-    }
-  });
-  var EachValidation = Validation.extend({
-    computed: {
-      keys: function keys() {
-        var model = this.getModel();
-
-        if (isObject(model)) {
-          return Object.keys(model);
-        } else {
-          return [];
-        }
-      },
-      tracker: function tracker() {
-        var _this11 = this;
-
-        var trackBy = this.validations.$trackBy;
-        return trackBy ? function (key) {
-          return "".concat(getPath(_this11.rootModel, _this11.getModelKey(key), trackBy));
-        } : function (x) {
-          return "".concat(x);
-        };
-      },
-      getModelLazy: function getModelLazy() {
-        var _this12 = this;
-
-        return function () {
-          return _this12.getModel();
-        };
-      },
-      children: function children() {
-        var _this13 = this;
-
-        var def = this.validations;
-        var model = this.getModel();
-
-        var validations = _objectSpread({}, def);
-
-        delete validations['$trackBy'];
-        var usedTracks = {};
-        return this.keys.map(function (key) {
-          var track = _this13.tracker(key);
-
-          if (usedTracks.hasOwnProperty(track)) {
-            return null;
-          }
-
-          usedTracks[track] = true;
-          return (0, _vval.h)(Validation, track, {
-            validations: validations,
-            prop: key,
-            lazyParentModel: _this13.getModelLazy,
-            model: model[key],
-            rootModel: _this13.rootModel
-          });
-        }).filter(Boolean);
-      }
-    },
-    methods: {
-      isNested: function isNested() {
-        return true;
-      },
-      getRef: function getRef(key) {
-        return this.refs[this.tracker(key)];
-      },
-      hasIter: function hasIter() {
-        return true;
-      }
-    }
-  });
-
-  var renderNested = function renderNested(vm, key) {
-    if (key === '$each') {
-      return (0, _vval.h)(EachValidation, key, {
-        validations: vm.validations[key],
-        lazyParentModel: vm.lazyParentModel,
-        prop: key,
-        lazyModel: vm.getModel,
-        rootModel: vm.rootModel
-      });
-    }
-
-    var validations = vm.validations[key];
-
-    if (Array.isArray(validations)) {
-      var root = vm.rootModel;
-      var refVals = buildFromKeys(validations, function (path) {
-        return function () {
-          return getPath(root, root.$v, path);
-        };
-      }, function (v) {
-        return Array.isArray(v) ? v.join('.') : v;
-      });
-      return (0, _vval.h)(GroupValidation, key, {
-        validations: refVals,
-        lazyParentModel: NIL,
-        prop: key,
-        lazyModel: NIL,
-        rootModel: root
-      });
-    }
-
-    return (0, _vval.h)(Validation, key, {
-      validations: validations,
-      lazyParentModel: vm.getModel,
-      prop: key,
-      lazyModel: vm.getModelKey,
-      rootModel: vm.rootModel
-    });
-  };
-
-  var renderRule = function renderRule(vm, key) {
-    return (0, _vval.h)(ValidationRule, key, {
-      rule: vm.validations[key],
-      lazyParentModel: vm.lazyParentModel,
-      lazyModel: vm.getModel,
-      rootModel: vm.rootModel
-    });
-  };
-
-  _cachedComponent = {
-    VBase: VBase,
-    Validation: Validation
-  };
-  return _cachedComponent;
-};
-
-var _cachedVue = null;
-
-function getVue(rootVm) {
-  if (_cachedVue) return _cachedVue;
-  var Vue = rootVm.constructor;
-
-  while (Vue.super) {
-    Vue = Vue.super;
-  }
-
-  _cachedVue = Vue;
-  return Vue;
-}
-
-var validateModel = function validateModel(model, validations) {
-  var Vue = getVue(model);
-
-  var _getComponent = getComponent(Vue),
-      Validation = _getComponent.Validation,
-      VBase = _getComponent.VBase;
-
-  var root = new VBase({
-    computed: {
-      children: function children() {
-        var vals = typeof validations === 'function' ? validations.call(model) : validations;
-        return [(0, _vval.h)(Validation, '$v', {
-          validations: vals,
-          lazyParentModel: NIL,
-          prop: '$v',
-          model: model,
-          rootModel: model
-        })];
-      }
-    }
-  });
-  return root;
-};
-
-var validationMixin = {
-  data: function data() {
-    var vals = this.$options.validations;
-
-    if (vals) {
-      this._vuelidate = validateModel(this, vals);
-    }
-
-    return {};
-  },
-  beforeCreate: function beforeCreate() {
-    var options = this.$options;
-    var vals = options.validations;
-    if (!vals) return;
-    if (!options.computed) options.computed = {};
-    if (options.computed.$v) return;
-
-    options.computed.$v = function () {
-      return this._vuelidate ? this._vuelidate.refs.$v.proxy : null;
-    };
-  },
-  beforeDestroy: function beforeDestroy() {
-    if (this._vuelidate) {
-      this._vuelidate.$destroy();
-
-      this._vuelidate = null;
-    }
-  }
-};
-exports.validationMixin = validationMixin;
-
-function Vuelidate(Vue) {
-  Vue.mixin(validationMixin);
-}
-
-var _default = Vuelidate;
-exports.default = _default;
-
-/***/ }),
-
 /***/ "./node_modules/vuelidate/lib/params.js":
 /*!**********************************************!*\
   !*** ./node_modules/vuelidate/lib/params.js ***!
@@ -60794,170 +60129,6 @@ var urlRegex = /^(?:(?:https?|ftp):\/\/)(?:\S+(?::\S*)?@)?(?:(?!(?:10|127)(?:\.\
 var _default = (0, _common.regex)('url', urlRegex);
 
 exports.default = _default;
-
-/***/ }),
-
-/***/ "./node_modules/vuelidate/lib/vval.js":
-/*!********************************************!*\
-  !*** ./node_modules/vuelidate/lib/vval.js ***!
-  \********************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.patchChildren = patchChildren;
-exports.h = h;
-
-function isUndef(v) {
-  return v === null || v === undefined;
-}
-
-function isDef(v) {
-  return v !== null && v !== undefined;
-}
-
-function sameVval(oldVval, vval) {
-  return vval.tag === oldVval.tag && vval.key === oldVval.key;
-}
-
-function createVm(vval) {
-  var Vm = vval.tag;
-  vval.vm = new Vm({
-    data: vval.args
-  });
-}
-
-function updateVval(vval) {
-  var keys = Object.keys(vval.args);
-
-  for (var i = 0; i < keys.length; i++) {
-    keys.forEach(function (k) {
-      vval.vm[k] = vval.args[k];
-    });
-  }
-}
-
-function createKeyToOldIdx(children, beginIdx, endIdx) {
-  var i, key;
-  var map = {};
-
-  for (i = beginIdx; i <= endIdx; ++i) {
-    key = children[i].key;
-    if (isDef(key)) map[key] = i;
-  }
-
-  return map;
-}
-
-function updateChildren(oldCh, newCh) {
-  var oldStartIdx = 0;
-  var newStartIdx = 0;
-  var oldEndIdx = oldCh.length - 1;
-  var oldStartVval = oldCh[0];
-  var oldEndVval = oldCh[oldEndIdx];
-  var newEndIdx = newCh.length - 1;
-  var newStartVval = newCh[0];
-  var newEndVval = newCh[newEndIdx];
-  var oldKeyToIdx, idxInOld, elmToMove;
-
-  while (oldStartIdx <= oldEndIdx && newStartIdx <= newEndIdx) {
-    if (isUndef(oldStartVval)) {
-      oldStartVval = oldCh[++oldStartIdx];
-    } else if (isUndef(oldEndVval)) {
-      oldEndVval = oldCh[--oldEndIdx];
-    } else if (sameVval(oldStartVval, newStartVval)) {
-      patchVval(oldStartVval, newStartVval);
-      oldStartVval = oldCh[++oldStartIdx];
-      newStartVval = newCh[++newStartIdx];
-    } else if (sameVval(oldEndVval, newEndVval)) {
-      patchVval(oldEndVval, newEndVval);
-      oldEndVval = oldCh[--oldEndIdx];
-      newEndVval = newCh[--newEndIdx];
-    } else if (sameVval(oldStartVval, newEndVval)) {
-      patchVval(oldStartVval, newEndVval);
-      oldStartVval = oldCh[++oldStartIdx];
-      newEndVval = newCh[--newEndIdx];
-    } else if (sameVval(oldEndVval, newStartVval)) {
-      patchVval(oldEndVval, newStartVval);
-      oldEndVval = oldCh[--oldEndIdx];
-      newStartVval = newCh[++newStartIdx];
-    } else {
-      if (isUndef(oldKeyToIdx)) oldKeyToIdx = createKeyToOldIdx(oldCh, oldStartIdx, oldEndIdx);
-      idxInOld = isDef(newStartVval.key) ? oldKeyToIdx[newStartVval.key] : null;
-
-      if (isUndef(idxInOld)) {
-        createVm(newStartVval);
-        newStartVval = newCh[++newStartIdx];
-      } else {
-        elmToMove = oldCh[idxInOld];
-
-        if (sameVval(elmToMove, newStartVval)) {
-          patchVval(elmToMove, newStartVval);
-          oldCh[idxInOld] = undefined;
-          newStartVval = newCh[++newStartIdx];
-        } else {
-          createVm(newStartVval);
-          newStartVval = newCh[++newStartIdx];
-        }
-      }
-    }
-  }
-
-  if (oldStartIdx > oldEndIdx) {
-    addVvals(newCh, newStartIdx, newEndIdx);
-  } else if (newStartIdx > newEndIdx) {
-    removeVvals(oldCh, oldStartIdx, oldEndIdx);
-  }
-}
-
-function addVvals(vvals, startIdx, endIdx) {
-  for (; startIdx <= endIdx; ++startIdx) {
-    createVm(vvals[startIdx]);
-  }
-}
-
-function removeVvals(vvals, startIdx, endIdx) {
-  for (; startIdx <= endIdx; ++startIdx) {
-    var ch = vvals[startIdx];
-
-    if (isDef(ch)) {
-      ch.vm.$destroy();
-      ch.vm = null;
-    }
-  }
-}
-
-function patchVval(oldVval, vval) {
-  if (oldVval === vval) {
-    return;
-  }
-
-  vval.vm = oldVval.vm;
-  updateVval(vval);
-}
-
-function patchChildren(oldCh, ch) {
-  if (isDef(oldCh) && isDef(ch)) {
-    if (oldCh !== ch) updateChildren(oldCh, ch);
-  } else if (isDef(ch)) {
-    addVvals(ch, 0, ch.length - 1);
-  } else if (isDef(oldCh)) {
-    removeVvals(oldCh, 0, oldCh.length - 1);
-  }
-}
-
-function h(tag, key, args) {
-  return {
-    tag: tag,
-    key: key,
-    args: args
-  };
-}
 
 /***/ }),
 
@@ -62292,11 +61463,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _App_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./App.vue */ "./resources/js/App.vue");
 /* harmony import */ var _store__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./store */ "./resources/js/store/index.js");
-/* harmony import */ var vue_sweetalert2__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vue-sweetalert2 */ "./node_modules/vue-sweetalert2/dist/index.js");
-/* harmony import */ var sweetalert2_dist_sweetalert2_min_css__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! sweetalert2/dist/sweetalert2.min.css */ "./node_modules/sweetalert2/dist/sweetalert2.min.css");
-/* harmony import */ var sweetalert2_dist_sweetalert2_min_css__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(sweetalert2_dist_sweetalert2_min_css__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var vuelidate__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! vuelidate */ "./node_modules/vuelidate/lib/index.js");
-/* harmony import */ var vuelidate__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(vuelidate__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var vue_progressbar__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vue-progressbar */ "./node_modules/vue-progressbar/dist/vue-progressbar.js");
+/* harmony import */ var vue_progressbar__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(vue_progressbar__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var vue_sweetalert2__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! vue-sweetalert2 */ "./node_modules/vue-sweetalert2/dist/index.js");
+/* harmony import */ var sweetalert2_dist_sweetalert2_min_css__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! sweetalert2/dist/sweetalert2.min.css */ "./node_modules/sweetalert2/dist/sweetalert2.min.css");
+/* harmony import */ var sweetalert2_dist_sweetalert2_min_css__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(sweetalert2_dist_sweetalert2_min_css__WEBPACK_IMPORTED_MODULE_5__);
 /* harmony import */ var vee_validate__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! vee-validate */ "./node_modules/vee-validate/dist/vee-validate.esm.js");
 /* harmony import */ var vee_validate_dist_rules__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! vee-validate/dist/rules */ "./node_modules/vee-validate/dist/rules.js");
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
@@ -62321,14 +61492,20 @@ axios.defaults.headers.common['X-CSRF-TOKEN'] = $('meta[name="csrf-token"]').att
 
 
 
+
  // If you don't need the styles, do not connect
 
-
-vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_sweetalert2__WEBPACK_IMPORTED_MODULE_3__["default"]);
-
-vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuelidate__WEBPACK_IMPORTED_MODULE_5___default.a); // import VeeValidate from 'vee-validate'
+ // import Vuelidate from 'vuelidate'
+// Vue.use(Vuelidate)
+// import VeeValidate from 'vee-validate'
 // Vue.use(VeeValidate)
 
+vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_sweetalert2__WEBPACK_IMPORTED_MODULE_4__["default"]);
+vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_progressbar__WEBPACK_IMPORTED_MODULE_3___default.a, {
+  color: 'rgb(53, 140, 85)',
+  failedColor: 'red',
+  height: '3px'
+});
 
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('ValidationProvider', vee_validate__WEBPACK_IMPORTED_MODULE_6__["ValidationProvider"]);
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('ValidationObserver', vee_validate__WEBPACK_IMPORTED_MODULE_6__["ValidationObserver"]);
