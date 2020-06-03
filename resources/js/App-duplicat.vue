@@ -1,14 +1,9 @@
 <template>
   <div id="app" class="container-sm">
     <vue-progress-bar></vue-progress-bar>
-
-    <navbar></navbar>
-
-    <router-view></router-view>
-    
-    <!-- <form-component></form-component> -->
+    <form-component></form-component>
     <!-- <edit-demnad v-else></edit-demnad> -->
-    <!-- <list-demands></list-demands> -->
+    <list-demands></list-demands>
   </div>
 </template>
 
@@ -16,7 +11,6 @@
 import FormComponent from './components/FormComponent.vue'
 // import EditDemand from './components/EditDemand.vue'
 import ListDemands from './components/ListDemands.vue'
-import Navbar from './components/Navbar.vue'
 import { mapGetters } from 'vuex'
 import Vue from 'vue'
 
@@ -29,7 +23,6 @@ export default {
   name: 'App',
   components: {
     'form-component': FormComponent,
-    'navbar': Navbar,
     // 'edit-demnad': EditDemand,
     'list-demands': ListDemands
   },

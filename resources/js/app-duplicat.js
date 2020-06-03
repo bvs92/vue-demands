@@ -28,7 +28,6 @@ import VueSweetalert2 from 'vue-sweetalert2';
  
 // If you don't need the styles, do not connect
 import 'sweetalert2/dist/sweetalert2.min.css';
-
  
 
 // import Vuelidate from 'vuelidate'
@@ -91,35 +90,6 @@ extend('min_value', {
   });
 
 
-import VueRouter from 'vue-router'
-
-Vue.use(VueRouter)
-
-// const FormComponent = { template: '<div>Home</div>' }
-
-import FormComponent from './components/FormComponent.vue'
-import ListDemands from './components/ListDemands.vue'
-import HomeComponent from './components/HomeComponent.vue'
-
-Vue.component('HomeComponent', HomeComponent);
-Vue.component('FormComponent', FormComponent);
-Vue.component('ListDemands', ListDemands);
-
-// 2. Define some routes
-const routes = [
-  { path: '/', component: HomeComponent },
-  { path: '/form', component: FormComponent },
-  { path: '/demands', component: ListDemands },
-]
-
-// 3. Create the router instance and pass the `routes` option
-const router = new VueRouter({
-  routes, // short for `routes: routes`,
-//   mode: 'history'
-})
-
-
-
 Vue.config.productionTip = false
 
 // const app = new Vue({
@@ -128,6 +98,5 @@ Vue.config.productionTip = false
 
 const app = new Vue({
     store,
-    render: h => h(App),
-    router
+    render: h => h(App)
   }).$mount('#app')

@@ -31,10 +31,11 @@
                 </div>
             @endif
 
-            <!-- <example-component></example-component> -->
+            <example-component></example-component>
             <!-- <div id="app">
             </div> -->
            
+        <FormComponent></FormComponent>
         </div>
 
         <script src="js/app.js"></script>
