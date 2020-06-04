@@ -2,6 +2,7 @@
 
 namespace App\Exceptions;
 
+// use League\OAuth2\Server\Exception\OAuthServerException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Throwable;
 
@@ -50,6 +51,11 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Throwable $exception)
     {
+        // if (get_class($exception) === OAuthServerException::class) {
+        //     response()->json(['message' => $exception->getMessage()], 401);
+        // }
+
         return parent::render($request, $exception);
     }
+
 }

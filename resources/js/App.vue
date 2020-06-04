@@ -3,7 +3,7 @@
     <vue-progress-bar></vue-progress-bar>
 
     <navbar></navbar>
-
+    <h2 class="text-center" v-if="this.$store.getters.isLoggedIn">Este logat.</h2>
     <router-view></router-view>
     
     <!-- <form-component></form-component> -->

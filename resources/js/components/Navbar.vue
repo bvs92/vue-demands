@@ -8,7 +8,10 @@
             <div class="navbar-nav">
                 <router-link class="nav-item nav-link" to="/">Home</router-link>
                 <router-link to="/form" class="nav-item nav-link">Form</router-link>
-                <router-link to="/demands" class="nav-item nav-link">Demands</router-link>
+                <router-link to="/demands" class="nav-item nav-link" v-if="isLoggedIn">Demands</router-link>
+                <router-link to="/login" class="nav-item nav-link" v-if="!isLoggedIn">Login</router-link>
+                <router-link to="/register" class="nav-item nav-link" v-if="!isLoggedIn">Register</router-link>
+                <router-link to="/logout" class="nav-item nav-link" v-if="isLoggedIn">Logout</router-link>
             <!-- <a class="nav-item nav-link" href="#">Features</a>
             <a class="nav-item nav-link" href="#">Pricing</a>
             <a class="nav-item nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a> -->
@@ -19,7 +22,13 @@
 
 
 <script>
+import {mapGetters} from 'vuex';
+
 export default {
-    name: "Navbar"
+    name: "Navbar",
+
+    computed: {
+        ...mapGetters(['isLoggedIn'])
+    }
 }
 </script>
